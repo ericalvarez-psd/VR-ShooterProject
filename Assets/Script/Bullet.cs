@@ -30,6 +30,7 @@ public class Bullet : MonoBehaviour
     {
         GameObject go = collision.collider.gameObject;
         if (go.CompareTag("Target") && go.TryGetComponent(out TargetBehaviour target)) target.RemoveHP(FinalDamage);
+        Destroy(gameObject);
     }
 
     public void SetDamage(float damage)
