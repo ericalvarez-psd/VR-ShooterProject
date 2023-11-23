@@ -6,8 +6,13 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float speed, damageMultiplier, lifetime;
-
+    float carriedDamage;
     Rigidbody rb;
+
+    public float FinalDamage
+    {
+        get { return carriedDamage * damageMultiplier; }
+    }
 
     void Start()
     {
@@ -23,6 +28,12 @@ public class Bullet : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        
+        GameObject go = collision.collider.gameObject;
+        if (go.CompareTag("Target") && go.TryGetComponent(out TargetBehaviour target)) target.RemoveHP(FinalDamage);
+    }
+
+    public void SetDamage(float damage)
+    {
+        carriedDamage = damage;
     }
 }

@@ -9,7 +9,7 @@ public class HandGun : Weapon
         if (grabbed && currentAmmo > 0)
         {
             Transform spawnPoint = bulletSpawnPoints[0];
-            Instantiate(bullet, spawnPoint.position, spawnPoint.rotation, spawnPoint);
+            if (Instantiate(bullet, spawnPoint.position, spawnPoint.rotation, spawnPoint).TryGetComponent(out Bullet b)) b.SetDamage(baseDamage);
         }
     }
 }

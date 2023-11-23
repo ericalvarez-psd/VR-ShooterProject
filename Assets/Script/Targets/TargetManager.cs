@@ -2,22 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider))]
 public class TargetManager : MonoBehaviour
 {
-    public static float startZPos = 48, endZPos = 5;
-
-    public static float hideYPos = 5.6f, showYPos = 2.5f;
-
-    public static float minXPos = -0.2f, maxXPos = 8.3f;
-
     public GameObject targetPrefab;
 
-    public float minSpawnTime = 0.5f, maxSpawnTime = 3;
+    public float minSpawnTime, maxSpawnTime;
+
+    BoxCollider spawnBox;
 
     float spawnTimer = 0, spawnTime;
 
     private void Start()
     {
+        spawnBox = GetComponent<BoxCollider>();
         spawnTime = Random.Range(minSpawnTime, maxSpawnTime);
     }
 
@@ -39,7 +37,10 @@ public class TargetManager : MonoBehaviour
 
     void CreateTarget()
     {
-        Vector3 startPos = new Vector3(Random.Range(minXPos, maxXPos), hideYPos, startZPos);
-        Instantiate(targetPrefab, startPos, Quaternion.Euler(0, 180, 0));
+        Vector3 startPos = new Vector3(Random.Range(spawnBox.bounds.min.x, spawnBox.bounds.max.x),
+                                       Random.Range(spawnBox.bounds.min.y, spawnBox.bounds.max.y),
+                                       Random.Range(spawnBox.bounds.min.z, spawnBox.bounds.max.z));
+
+        Instantiate(targetPrefab, startPos, transform.rotation);
     }
 }

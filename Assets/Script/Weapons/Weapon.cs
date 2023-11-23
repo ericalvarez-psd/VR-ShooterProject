@@ -6,13 +6,12 @@ using UnityEngine;
 public abstract class Weapon : MonoBehaviour
 {
     public GameObject bullet;
-    public int currentAmmo, maxAmmo, ammoPerShot, baseDamage;
-    public float shotRate, range;
-    public LayerMask damageLayers;
+    public int currentAmmo, maxAmmo, ammoPerShot;
+    public float shotRate, range, baseDamage;
     [SerializeField]
     protected List<Transform> bulletSpawnPoints;
 
-    protected bool grabbed = true, shooting = false;
+    protected bool grabbed = false, shooting = false;
     protected float shotCooldown = 0;
     protected Rigidbody rb;
 

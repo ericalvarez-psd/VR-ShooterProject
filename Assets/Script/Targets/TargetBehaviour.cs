@@ -4,70 +4,35 @@ using UnityEngine;
 
 public class TargetBehaviour : MonoBehaviour
 {
-    public bool zMovement = false;
-    bool visible = false;
-    bool EndReached
-    {
-        get
-        {
-            return transform.position.z < TargetManager.endZPos;
-        }
-    }
-    [Range(0, 1)]
-    public float zMoveChance = 0.2f;
-    public float minSpeed = 5, maxSpeed = 10;
-    float xSpeed, ySpeed = 5, zSpeed = 2, startZPos, zDestination, zDistance = 1;
-    public int maxHP;
-    int HP;
+    public float minSpeed, maxSpeed, ySpeed, maxHP;
+    float xSpeed, startY, HP;
+    bool movingOnY = true, reachedRange = false;
 
     void Start()
     {
         HP = maxHP;
         xSpeed = Random.Range(minSpeed, maxSpeed);
-        startZPos = transform.position.x;
-        zDestination = startZPos - zDistance;
+        startY = transform.position.y;
     }
 
     void Update()
     {
-        if (EndReached)
+        if (!reachedRange && transform.position.y <= startY - 2)
         {
-            yMove(true);
-            return;
+            ChangeDir(false);
+            reachedRange = true;
         }
-        if (visible) xMove();
-        else yMove(false);
+        Move(movingOnY);
     }
 
-    void xMove()
+    void Move(bool y)
     {
-        transform.position = transform.position + transform.forward * xSpeed * Time.deltaTime;
-        
-        //zMove();
+        Vector3 dir = y ? -transform.up : transform.forward;
+        float speed = y ? ySpeed : xSpeed;
+        transform.position = transform.position + Time.deltaTime * speed * dir ;
     }
 
-    void yMove(bool up)
-    {
-        float yPos = up ? TargetManager.hideYPos : TargetManager.showYPos;
-        bool ended = up ? transform.position.y < yPos : transform.position.y > yPos;
-        if (ended)
-            transform.position = Vector3
-                .MoveTowards(transform.position,
-                             new Vector3(transform.position.x, yPos, transform.position.z),
-                             ySpeed * Time.deltaTime);
-        else if (EndReached) Destroy(gameObject, 3);
-        else visible = true;
-    }
-
-    void zMove()
-    {
-        if (zMovement) transform.position = Vector3
-                                            .MoveTowards(transform.position,
-                                                         new Vector3(transform.position.x, zDestination, transform.position.z),
-                                                         zSpeed * Time.deltaTime);
-    }
-
-    public bool RemoveHP(int ammount)
+    public bool RemoveHP(float ammount)
     {
         HP -= ammount;
         if (HP <= 0)
@@ -76,5 +41,10 @@ public class TargetBehaviour : MonoBehaviour
             return true;
         }
         else return false;
+    }
+
+    public void ChangeDir(bool y)
+    {
+        movingOnY = y;
     }
 }
