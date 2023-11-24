@@ -2,14 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HandGun : Weapon
+public class Shotgun : Weapon
 {
+    public int pelletsPerShot;
+    public float maxPelletRotationOffset;
+
     public override void Shoot()
     {
         if (grabbed && currentAmmo > 0)
         {
             Transform spawnPoint = bulletSpawnPoints[0];
-            if (Instantiate(bullet, spawnPoint.position, spawnPoint.rotation).TryGetComponent(out Bullet b)) b.SetDamage(baseDamage);
+            for (int i = 0; i < pelletsPerShot; i++)
+            {
+                Vector3 rotation = spawnPoint.rotation.eulerAngles;
+                float x = Random.Range(-maxPelletRotationOffset, maxPelletRotationOffset);
+                float y = Random.Range(-maxPelletRotationOffset, maxPelletRotationOffset);
+                if (Instantiate(bullet, spawnPoint.position, Quaternion.Euler(rotation.x + x, rotation.y + y, rotation.z)).TryGetComponent(out Bullet b)) b.SetDamage(baseDamage);
+            }
             PlayClip(ClipName.Shoot);
             currentAmmo -= ammoPerShot;
         }

@@ -10,21 +10,21 @@ public abstract class Weapon : MonoBehaviour
 {
     public GameObject bullet;
     public int currentAmmo, maxAmmo, ammoPerShot;
-    public float shotRate, range, baseDamage;
+    public float shotRate, baseDamage;
     [SerializeField]
     protected List<Transform> bulletSpawnPoints;
 
-    protected bool grabbed = false, shooting = false;
-    protected float shotCooldown = 0;
+    protected bool grabbed = false;
+
     protected Rigidbody rb;
     protected AudioSource audioSource;
     [SerializeField]
     protected List<Clip> clips;
 
-    [Header("FOR TESTING")]
+    [Header("TESTING")]
     public bool autoShoot;
     [Range(0.2f, 1)]
-    public float autoShootTime = 0.2f;
+    public float autoShootRate;
 
     protected virtual void Start()
     {
@@ -32,22 +32,7 @@ public abstract class Weapon : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    protected virtual void Update() 
-    {
-        if (autoShoot) AutoShoot();
-    }
-
-    float t = 0;
-    protected virtual void AutoShoot()
-    {
-        grabbed = true;
-        t += Time.deltaTime;
-        if (t > autoShootTime)
-        {
-            Shoot();
-            t = 0;
-        }
-    }
+    protected virtual void Update() { grabbed = autoShoot; } // TESTING
 
     public abstract void Shoot();
 
