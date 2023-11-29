@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MachineGun : AutomaticWeapon
@@ -23,7 +22,7 @@ public class MachineGun : AutomaticWeapon
         if (grabbed && currentAmmo > 0)
         {
             Transform spawnPoint = bulletSpawnPoints[0];
-            if (Instantiate(bullet, spawnPoint.position, spawnPoint.rotation).TryGetComponent(out Bullet b)) b.SetDamage(baseDamage);
+            if (Instantiate(bullet, spawnPoint.position, spawnPoint.rotation).TryGetComponent(out Ammunition b)) b.SetDamage(baseDamage);
             PlayClip(ClipName.Shoot);
             currentAmmo -= ammoPerShot;
         }

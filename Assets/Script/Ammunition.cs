@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Bullet : MonoBehaviour
+public class Ammunition : MonoBehaviour
 {
     public float speed, damageMultiplier, lifetime;
     float carriedDamage;
@@ -20,7 +18,7 @@ public class Bullet : MonoBehaviour
         rb.velocity = rb.transform.forward * speed;
     }
 
-    private void Update()
+    void Update()
     {
         lifetime -= Time.deltaTime;
         if (lifetime <= 0) Destroy(gameObject);

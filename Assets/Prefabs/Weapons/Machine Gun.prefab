@@ -115,7 +115,7 @@ MonoBehaviour:
   m_SelectEntered:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 5896877733166886481}
         m_TargetAssemblyTypeName: Weapon, Assembly-CSharp
         m_MethodName: Grab
         m_Mode: 1
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_SelectExited:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 5896877733166886481}
         m_TargetAssemblyTypeName: Weapon, Assembly-CSharp
         m_MethodName: Ungrab
         m_Mode: 1
@@ -157,9 +157,9 @@ MonoBehaviour:
   m_Activated:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: HandGun, Assembly-CSharp
-        m_MethodName: Shoot
+      - m_Target: {fileID: 5896877733166886481}
+        m_TargetAssemblyTypeName: AutomaticWeapon, Assembly-CSharp
+        m_MethodName: StartShooting
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -171,7 +171,19 @@ MonoBehaviour:
         m_CallState: 2
   m_Deactivated:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5896877733166886481}
+        m_TargetAssemblyTypeName: AutomaticWeapon, Assembly-CSharp
+        m_MethodName: StopShooting
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_StartingHoverFilters: []
   m_StartingSelectFilters: []
   m_StartingInteractionStrengthFilters: []
@@ -277,7 +289,6 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 21b1ecbc010f938409a3f95ba11b7414, type: 3}
   autoShoot: 0
   autoShootRate: 0.3
-  hitEffect: {fileID: 0}
 --- !u!82 &3159078799501273654
 AudioSource:
   m_ObjectHideFlags: 0

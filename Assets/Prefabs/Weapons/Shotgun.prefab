@@ -115,7 +115,7 @@ MonoBehaviour:
   m_SelectEntered:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1526614644829673984}
         m_TargetAssemblyTypeName: Weapon, Assembly-CSharp
         m_MethodName: Grab
         m_Mode: 1
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_SelectExited:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1526614644829673984}
         m_TargetAssemblyTypeName: Weapon, Assembly-CSharp
         m_MethodName: Ungrab
         m_Mode: 1
@@ -157,8 +157,8 @@ MonoBehaviour:
   m_Activated:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: HandGun, Assembly-CSharp
+      - m_Target: {fileID: 1526614644829673984}
+        m_TargetAssemblyTypeName: Shotgun, Assembly-CSharp
         m_MethodName: Shoot
         m_Mode: 1
         m_Arguments:

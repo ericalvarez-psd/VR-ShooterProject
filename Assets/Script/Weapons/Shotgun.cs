@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Shotgun : Weapon
@@ -17,7 +15,7 @@ public class Shotgun : Weapon
                 Vector3 rotation = spawnPoint.rotation.eulerAngles;
                 float x = Random.Range(-maxPelletRotationOffset, maxPelletRotationOffset);
                 float y = Random.Range(-maxPelletRotationOffset, maxPelletRotationOffset);
-                if (Instantiate(bullet, spawnPoint.position, Quaternion.Euler(rotation.x + x, rotation.y + y, rotation.z)).TryGetComponent(out Bullet b)) b.SetDamage(baseDamage);
+                if (Instantiate(bullet, spawnPoint.position, Quaternion.Euler(rotation.x + x, rotation.y + y, rotation.z)).TryGetComponent(out Ammunition b)) b.SetDamage(baseDamage);
             }
             PlayClip(ClipName.Shoot);
             currentAmmo -= ammoPerShot;
