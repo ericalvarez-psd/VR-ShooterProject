@@ -1,14 +1,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(AudioSource))]
 
 public abstract class Weapon : MonoBehaviour
 {
-    public GameObject bullet;
-    public int currentAmmo, maxAmmo, ammoPerShot;
+    public const string LEFT_CONTROLLER = "LeftController";
+    public const string RIGHT_CONTROLLER = "RightController";
+
+    public int ammoPerShot;
+    protected Clip Clip // Stores the clip object with the ammo
+    {
+        get 
+        {
+            var clip = GetComponentInChildren<Clip>();
+            if (clip == null) clip = new() { ammo = 0 };
+            return clip;
+        }
+    }
     public float shotRate, baseDamage;
     [SerializeField]
     protected List<Transform> bulletSpawnPoints;
@@ -18,7 +30,12 @@ public abstract class Weapon : MonoBehaviour
     protected Rigidbody rb;
     protected AudioSource audioSource;
     [SerializeField]
-    protected List<Clip> clips;
+    protected List<AudioClipName> audioClips;
+
+    protected bool CanShoot
+    {
+        get { return grabbed || autoShoot; }
+    }
 
     [Header("TESTING")]
     public bool autoShoot;
@@ -31,7 +48,7 @@ public abstract class Weapon : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    protected virtual void Update() { grabbed = autoShoot; } // TESTING
+    protected virtual void Update() {}
 
     public abstract void Shoot();
 
@@ -39,19 +56,45 @@ public abstract class Weapon : MonoBehaviour
     {
         rb.useGravity = false;
         grabbed = true;
+        
+        if (transform.parent != null)
+        {
+            GameCanvasManager.Counter side = GameCanvasManager.Counter.Right;
+            if (transform.parent.CompareTag(LEFT_CONTROLLER)) side = GameCanvasManager.Counter.Left;
+            if (transform.parent.CompareTag(RIGHT_CONTROLLER)) side = GameCanvasManager.Counter.Right;
+            GameCanvasManager.Instance.SetAmmo(Clip.ammo, side);
+        }
     }
 
     public virtual void Ungrab()
     {
         rb.useGravity = true;
         grabbed = false;
+        if (transform.parent != null)
+        {
+            GameCanvasManager.Counter side = GameCanvasManager.Counter.Right;
+            if (transform.parent.CompareTag(LEFT_CONTROLLER)) side = GameCanvasManager.Counter.Left;
+            if (transform.parent.CompareTag(RIGHT_CONTROLLER)) side = GameCanvasManager.Counter.Right;
+            GameCanvasManager.Instance.SetAmmo(0, side);
+        }
     }
 
-    protected void PlayClip(ClipName name)
+    public virtual void Reload() 
     {
-        if (clips.Any(c => c.name == name))
+        if (transform.parent != null)
         {
-            audioSource.clip = clips.First(c => c.name == name).clip;
+            GameCanvasManager.Counter side = GameCanvasManager.Counter.Right;
+            if (transform.parent.CompareTag(LEFT_CONTROLLER)) side = GameCanvasManager.Counter.Left;
+            if (transform.parent.CompareTag(RIGHT_CONTROLLER)) side = GameCanvasManager.Counter.Right;
+            GameCanvasManager.Instance.SetAmmo(Clip.ammo, side);
+        }
+    }
+
+    protected void PlayAudioClip(ClipName name)
+    {
+        if (audioClips.Any(c => c.name == name))
+        {
+            audioSource.clip = audioClips.First(c => c.name == name).clip;
             audioSource.Play();
         }
     }
@@ -62,7 +105,7 @@ public abstract class Weapon : MonoBehaviour
     }
 
     [System.Serializable]
-    public struct Clip
+    public struct AudioClipName
     {
         public ClipName name;
         public AudioClip clip;

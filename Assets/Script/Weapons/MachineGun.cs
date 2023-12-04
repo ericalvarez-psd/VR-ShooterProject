@@ -19,12 +19,29 @@ public class MachineGun : AutomaticWeapon
 
     public override void Shoot()
     {
-        if (grabbed && currentAmmo > 0)
+        if (autoShoot && !Clip.HasAmmo)
+        {
+            autoShoot = false;
+            grabbed = false;
+        }
+        if (CanShoot && Clip.HasAmmo)
         {
             Transform spawnPoint = bulletSpawnPoints[0];
-            if (Instantiate(bullet, spawnPoint.position, spawnPoint.rotation).TryGetComponent(out Ammunition b)) b.SetDamage(baseDamage);
-            PlayClip(ClipName.Shoot);
-            currentAmmo -= ammoPerShot;
+            if (Instantiate(Clip.ammoType, spawnPoint.position, spawnPoint.rotation).TryGetComponent(out Ammunition b)) b.SetDamage(baseDamage);
+            PlayAudioClip(ClipName.Shoot);
+            Clip.RemoveAmmo(ammoPerShot);
+
+            if (transform.parent != null)
+            {
+                GameCanvasManager.Counter side = GameCanvasManager.Counter.Right;
+                if (transform.parent.CompareTag(LEFT_CONTROLLER)) side = GameCanvasManager.Counter.Left;
+                if (transform.parent.CompareTag(RIGHT_CONTROLLER)) side = GameCanvasManager.Counter.Right;
+                GameCanvasManager.Instance.SetAmmo(Clip.ammo, side);
+            }
+        }
+        else if (CanShoot && !Clip.HasAmmo)
+        {
+            Clip.DropClip();
         }
     }
 }
