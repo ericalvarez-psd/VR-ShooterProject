@@ -31,7 +31,7 @@ public class Clip : MonoBehaviour
     void Update() { rb.useGravity = !InUse; }
 
     /// <summary>
-    /// Attaches the clip to the gun passe
+    /// Attaches the clip to the gun passed by parameter.
     /// </summary>
     public void Attach(GameObject weapon)
     {
@@ -40,14 +40,13 @@ public class Clip : MonoBehaviour
             transform.parent = weapon.transform;
             transform.position = Vector3.zero;
             transform.rotation = Quaternion.identity;
-            weapon.GetComponent<Weapon>().Reload();
+            if (weapon.TryGetComponent(out Weapon w)) w.Reload();
         }
     }
 
     /// <summary>
     /// Removes from the clip the specified ammount of ammo.
     /// </summary>
-    /// <param name="ammount">Ammount of ammo to remove.</param>
     public void RemoveAmmo(int ammount)
     {
         ammo -= ammount;

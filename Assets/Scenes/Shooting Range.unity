@@ -849,7 +849,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402b3a0c25d841e4485262972550c22b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammoText: {fileID: 1548141703}
+  ammoTextLeft: {fileID: 0}
+  ammoTextRight: {fileID: 0}
 --- !u!1001 &671594561
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3789,6 +3790,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1526614644829673984, guid: 35eb8fcfcf9746e4b857a4f090f2cb86,
+        type: 3}
+      propertyPath: maxPelletAngleOffset
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 1719720610165257455, guid: 35eb8fcfcf9746e4b857a4f090f2cb86,
         type: 3}
       propertyPath: m_Name
