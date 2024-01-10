@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5239043174283788041}
   - component: {fileID: 7079299967304559361}
   - component: {fileID: 5067744926359544102}
+  - component: {fileID: 7123268266201971056}
   m_Layer: 7
   m_Name: Pellet
   m_TagString: Untagged
@@ -190,6 +191,27 @@ MonoBehaviour:
   speed: 10
   damageMultiplier: 0.5
   lifetime: 1
+--- !u!135 &7123268266201971056
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2708078833268490565}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.005
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7661178732123248457
 GameObject:
   m_ObjectHideFlags: 0

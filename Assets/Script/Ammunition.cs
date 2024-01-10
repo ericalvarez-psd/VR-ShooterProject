@@ -16,12 +16,7 @@ public class Ammunition : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.velocity = rb.transform.forward * speed;
-    }
-
-    void Update()
-    {
-        lifetime -= Time.deltaTime;
-        if (lifetime <= 0) Destroy(gameObject);
+        Destroy(gameObject, lifetime);
     }
 
     void OnCollisionEnter(Collision collision)

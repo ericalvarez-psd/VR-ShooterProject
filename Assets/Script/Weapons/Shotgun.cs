@@ -3,22 +3,38 @@ using UnityEngine;
 public class Shotgun : Weapon
 {
     public int pelletsPerShot;
-    public float maxPelletRotationOffset;
+    public float maxPelletAngleOffset;
 
     public override void Shoot()
     {
-        if (grabbed && currentAmmo > 0)
+        if (autoShoot && !Clip.HasAmmo)
+        {
+            autoShoot = false;
+            grabbed = false;
+        }
+        if (CanShoot && Clip.HasAmmo)
         {
             Transform spawnPoint = bulletSpawnPoints[0];
             for (int i = 0; i < pelletsPerShot; i++)
             {
                 Vector3 rotation = spawnPoint.rotation.eulerAngles;
-                float x = Random.Range(-maxPelletRotationOffset, maxPelletRotationOffset);
-                float y = Random.Range(-maxPelletRotationOffset, maxPelletRotationOffset);
-                if (Instantiate(bullet, spawnPoint.position, Quaternion.Euler(rotation.x + x, rotation.y + y, rotation.z)).TryGetComponent(out Ammunition b)) b.SetDamage(baseDamage);
+                float xOffset = Random.Range(-maxPelletAngleOffset, maxPelletAngleOffset);
+                float yOffset = Random.Range(-maxPelletAngleOffset, maxPelletAngleOffset);
+                if (Instantiate(Clip.ammoType, spawnPoint.position, Quaternion.Euler(rotation.x + xOffset, rotation.y + yOffset, rotation.z)).TryGetComponent(out Ammunition b)) b.SetDamage(baseDamage);
             }
-            PlayClip(ClipName.Shoot);
-            currentAmmo -= ammoPerShot;
+            PlayAudioClip(ClipName.Shoot);
+            Clip.RemoveAmmo(ammoPerShot);
+            if (transform.parent != null)
+            {
+                GameCanvasManager.Counter side = GameCanvasManager.Counter.Right;
+                if (transform.parent.CompareTag(LEFT_CONTROLLER)) side = GameCanvasManager.Counter.Left;
+                if (transform.parent.CompareTag(RIGHT_CONTROLLER)) side = GameCanvasManager.Counter.Right;
+                GameCanvasManager.Instance.SetAmmo(Clip.ammo, side);
+            }
+        }
+        else if (CanShoot && !Clip.HasAmmo)
+        {
+            Clip.DropClip();
         }
     }
 
